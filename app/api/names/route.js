@@ -1,19 +1,28 @@
-import { connect } from '@/lib/db';
-import Name from '@/lib/models/Name';
+import { getDB, initDB } from '@/lib/db';
+
+// Inicializar BD al arrancar
+setImmediate(() => {
+  initDB().catch(err => console.error('Error inicializando BD:', err));
+});
 
 export async function GET() {
   try {
-    await connect();
-    const names = await Name.find({}).sort({ createdAt: -1 });
-    return Response.json(names, { status: 200 });
+    const pool = await getDB();
+    const result = await pool.query(
+      'SELECT * FROM names ORDER BY created_at DESC'
+    );
+    return Response.json(result.rows, { status: 200 });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('Error al obtener nombres:', error);
+    return Response.json(
+      { error: 'Error al obtener nombres' },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(req) {
   try {
-    await connect();
     const { name } = await req.json();
 
     if (!name || name.trim() === '') {
@@ -23,11 +32,18 @@ export async function POST(req) {
       );
     }
 
-    const newName = new Name({ name: name.trim() });
-    await newName.save();
+    const pool = await getDB();
+    const result = await pool.query(
+      'INSERT INTO names (name) VALUES ($1) RETURNING *',
+      [name.trim()]
+    );
 
-    return Response.json(newName, { status: 201 });
+    return Response.json(result.rows[0], { status: 201 });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('Error al guardar nombre:', error);
+    return Response.json(
+      { error: 'Error al guardar el nombre' },
+      { status: 500 }
+    );
   }
 }

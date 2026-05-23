@@ -3,7 +3,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Gestor de Nombres',
-  description: 'Aplicación para guardar y visualizar nombres con Next.js y MongoDB',
+  description: 'Aplicación para guardar y visualizar nombres con Next.js y PostgreSQL',
 };
 
 export default function RootLayout({

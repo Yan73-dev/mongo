@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import styles from './page.module.css';
 
 interface Name {
-  _id: string;
+  id: number;
   name: string;
-  createdAt: string;
+  created_at: string;
 }
 
 export default function Home() {
@@ -115,7 +115,7 @@ export default function Home() {
             ) : (
               <div className={styles.namesList}>
                 {names.map((item) => (
-                  <h1 key={item._id} className={styles.nameItem}>
+                  <h1 key={item.id} className={styles.nameItem}>
                     {item.name}
                   </h1>
                 ))}
