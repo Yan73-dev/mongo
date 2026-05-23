@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Gestor de Nombres',
-  description: 'Aplicación para guardar y visualizar nombres con Next.js y PostgreSQL',
+  title: 'Gestor de Contenido',
+  description: 'Aplicación para gestionar contenido con Next.js y Supabase',
 };
 
 export default function RootLayout({

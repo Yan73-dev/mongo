@@ -1,22 +1,22 @@
-# 📝 Gestor de Nombres con Next.js y PostgreSQL
+# 📝 Gestor de Contenido con Next.js y Supabase
 
-Una aplicación web moderna para guardar y visualizar nombres utilizando Next.js, PostgreSQL y API Routes.
+Una aplicación web moderna para gestionar contenido utilizando Next.js, Supabase y API Routes en tiempo real.
 
 ## 🚀 Características
 
 - ✅ Interfaz moderna y responsiva
-- ✅ Guardar nombres en PostgreSQL
-- ✅ Visualizar todos los nombres guardados
+- ✅ Guardar contenido en Supabase (tabla Ace)
+- ✅ Visualizar todos los elementos guardados en tiempo real
 - ✅ Validación de datos
-- ✅ Mensajes de confirmación
+- ✅ Mensajes de estado
 - ✅ Diseño atractivo con gradientes
-- ✅ Base de datos relacional confiable
+- ✅ Integración con Supabase SSR
 
 ## 📋 Requisitos
 
 - Node.js 18+ 
 - npm o yarn
-- PostgreSQL 12+ instalado localmente o cuenta en un servidor PostgreSQL
+- Cuenta en Supabase (gratuita)
 
 ## 🔧 Instalación
 
@@ -33,30 +33,14 @@ cd mongo
 npm install
 ```
 
-### 3. Configura PostgreSQL
+### 3. Configura Supabase
 
-#### Opción A: PostgreSQL Local
+El proyecto ya está configurado con tu Supabase:
 
-1. Asegúrate de tener PostgreSQL instalado
-2. Crea una base de datos:
-```bash
-creatdb nombres-db
-```
-
-3. Edita el archivo `.env.local` con tu conexión local:
-```env
-DATABASE_URL=postgresql://usuario:contraseña@localhost:5432/nombres-db
-```
-
-#### Opción B: PostgreSQL en la Nube (Vercel, Railway, Supabase)
-
-1. Ve a [Supabase](https://supabase.com) o [Railway](https://railway.app)
-2. Crea un proyecto nuevo
-3. Copia tu connection string
-4. Pégalo en `.env.local`:
-```env
-DATABASE_URL=postgresql://usuario:contraseña@host:puerto/nombres-db
-```
+- URL: `https://jesmqaklynxgjqrhqovo.supabase.co`
+- Key Publicable: `sb_publishable_r06HHNG5UBN3qLsJkbm-5g_aD1MYt7m`
+- Tabla: `Ace`
+- Columna principal: `user`
 
 ### 4. Ejecuta el servidor de desarrollo
 
@@ -66,40 +50,36 @@ npm run dev
 
 La aplicación estará disponible en `http://localhost:3000`
 
-La tabla de nombres se creará automáticamente en la primera petición.
-
 ## 📱 Uso
 
-1. **Ingresa un nombre** en el campo de texto
-2. **Haz clic en "Enviar"** para guardar el nombre en la base de datos
-3. **Haz clic en "Ver Nombres"** para actualizar y mostrar todos los nombres guardados
-4. Los nombres aparecerán en formato h1 en azul
+1. **Ingresa un valor** en el campo de texto
+2. **Haz clic en "Guardar"** para guardar el contenido en la tabla Ace de Supabase
+3. **Haz clic en "Ver Elementos"** para actualizar y mostrar todos los valores guardados en la columna user
+4. Los elementos aparecerán con su fecha de creación
 
 ## 📁 Estructura del Proyecto
 
 ```
 mongo/
 ├── app/
-│   ├── api/
-│   │   └── names/
-│   │       └── route.js            # API routes (GET y POST)
-│   ├── layout.tsx                  # Layout principal
-│   ├── page.tsx                    # Página principal
-│   ├── page.module.css             # Estilos de la página
-│   └── globals.css                 # Estilos globales
+│   ├── layout.tsx                    # Layout principal
+│   ├── page.tsx                      # Página principal
+│   ├── page.module.css               # Estilos de la página
+│   └── globals.css                   # Estilos globales
 ├── lib/
-│   └── db.js                       # Conexión a PostgreSQL
-├── .env.local                      # Variables de entorno
-├── next.config.js                  # Configuración de Next.js
-├── tsconfig.json                   # Configuración de TypeScript
-└── package.json                    # Dependencias
+│   └── supabase.js                   # Cliente de Supabase
+├── .env.local                        # Variables de entorno
+├── next.config.js                    # Configuración de Next.js
+├── tsconfig.json                     # Configuración de TypeScript
+└── package.json                      # Dependencias
 ```
 
 ## 🛠️ Tecnologías Utilizadas
 
 - **Next.js 14** - Framework React
-- **PostgreSQL** - Base de datos relacional
-- **pg** - Driver de PostgreSQL para Node.js
+- **Supabase** - Backend como servicio (BaaS)
+- **@supabase/supabase-js** - Cliente JavaScript de Supabase
+- **@supabase/ssr** - Utilidades para SSR con Supabase
 - **CSS Modules** - Estilos encapsulados
 
 ## 📦 Dependencias Principales
@@ -108,7 +88,8 @@ mongo/
 {
   "next": "^14.0.0",
   "react": "^18.2.0",
-  "pg": "^8.11.0"
+  "@supabase/supabase-js": "^2.38.0",
+  "@supabase/ssr": "^0.0.11"
 }
 ```
 
@@ -120,61 +101,58 @@ mongo/
 4. Selecciona tu repositorio
 5. En **Environment Variables**, agrega:
    ```
-   DATABASE_URL = [tu connection string de PostgreSQL]
+   NEXT_PUBLIC_SUPABASE_URL = https://jesmqaklynxgjqrhqovo.supabase.co
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = sb_publishable_r06HHNG5UBN3qLsJkbm-5g_aD1MYt7m
    ```
 6. Haz clic en "Deploy"
 
-## 📝 API Endpoints
+## 📝 API de Supabase
 
-### GET /api/names
-Obtiene todos los nombres guardados
+### Tabla: Ace
 
-**Respuesta:**
-```json
-[
-  {
-    "id": 1,
-    "name": "Jose",
-    "created_at": "2024-01-15T10:30:00Z"
-  }
-]
+**Columnas:**
+- `id` - Identificador único (INTEGER, PRIMARY KEY, AUTO INCREMENT)
+- `user` - Contenido del usuario (TEXT)
+- `created_at` - Fecha de creación (TIMESTAMP, DEFAULT: CURRENT_TIMESTAMP)
+
+### Operaciones
+
+**Obtener todos los elementos:**
+```javascript
+const { data } = await supabase
+  .from('Ace')
+  .select('id, user, created_at')
+  .order('created_at', { ascending: false });
 ```
 
-### POST /api/names
-Guarda un nuevo nombre
-
-**Body:**
-```json
-{
-  "name": "Jose"
-}
-```
-
-**Respuesta:**
-```json
-{
-  "id": 1,
-  "name": "Jose",
-  "created_at": "2024-01-15T10:30:00Z"
-}
+**Insertar un nuevo elemento:**
+```javascript
+const { data } = await supabase
+  .from('Ace')
+  .insert([{ user: 'tu_contenido' }])
+  .select();
 ```
 
 ## 🐛 Solución de Problemas
 
-### Error: DATABASE_URL no está definido
+### Error: NEXT_PUBLIC_SUPABASE_URL no está definido
 - Asegúrate de crear el archivo `.env.local` en la raíz del proyecto
-- Verifica que la variable `DATABASE_URL` esté correctamente configurada
+- Verifica que las variables estén correctamente configuradas
 
-### Error: Conexión rechazada
-- Verifica que PostgreSQL esté corriendo (`sudo service postgresql status`)
-- Comprueba que las credenciales sean correctas
-- Asegúrate de que la base de datos exista
-
-### Error: "relation \"names\" does not exist"
-- La tabla se crea automáticamente. Si el error persiste, ejecuta:
-```bash
-node -e "require('./lib/db.js').initDB()"
+### Error: "relation \"Ace\" does not exist"
+- Crea la tabla `Ace` en tu proyecto Supabase con las columnas especificadas
+- O ejecuta el SQL en el editor de Supabase:
+```sql
+CREATE TABLE Ace (
+  id SERIAL PRIMARY KEY,
+  user TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ```
+
+### Error: Permiso denegado
+- Verifica que la tabla Ace tenga habilitado el acceso público en Supabase
+- Ve a: Editor SQL → Nueva consulta → RLS Policies
 
 ## 📄 Licencia
 

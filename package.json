@@ -6,14 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "db:init": "node scripts/init-db.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "next": "^14.0.0",
-    "pg": "^8.11.0"
+    "@supabase/supabase-js": "^2.38.0",
+    "@supabase/ssr": "^0.0.11"
   },
   "devDependencies": {
     "typescript": "^5",
