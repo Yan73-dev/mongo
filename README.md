@@ -10,6 +10,7 @@ Una aplicación web moderna para guardar y visualizar nombres utilizando Next.js
 - ✅ Validación de datos
 - ✅ Mensajes de confirmación
 - ✅ Diseño atractivo con gradientes
+- ✅ Código optimizado en JavaScript
 
 ## 📋 Requisitos
 
@@ -69,19 +70,19 @@ mongo/
 ├── app/
 │   ├── api/
 │   │   └── names/
-│   │       └── route.ts          # API routes (GET y POST)
-│   ├── layout.tsx                 # Layout principal
-│   ├── page.tsx                   # Página principal
-│   ├── page.module.css            # Estilos de la página
-│   └── globals.css                # Estilos globales
+│   │       └── route.js            # API routes (GET y POST)
+│   ├── layout.tsx                   # Layout principal
+│   ├── page.tsx                     # Página principal
+│   ├── page.module.css              # Estilos de la página
+│   ├── globals.css                  # Estilos globales
 ├── lib/
-│   ├── db.ts                      # Conexión a MongoDB
+│   ├── db.js                        # Conexión a MongoDB
 │   └── models/
-│       └── Name.ts                # Modelo de datos
-├── .env.local                     # Variables de entorno
-├── next.config.js                 # Configuración de Next.js
-├── tsconfig.json                  # Configuración de TypeScript
-└── package.json                   # Dependencias
+│       └── Name.js                  # Modelo de datos
+├── .env.local                       # Variables de entorno
+├── next.config.js                   # Configuración de Next.js
+├── tsconfig.json                    # Configuración de TypeScript
+└── package.json                     # Dependencias
 ```
 
 ## 🛠️ Tecnologías Utilizadas
@@ -89,7 +90,6 @@ mongo/
 - **Next.js 14** - Framework React
 - **MongoDB** - Base de datos NoSQL
 - **Mongoose** - ODM para MongoDB
-- **TypeScript** - Tipado estático
 - **CSS Modules** - Estilos encapsulados
 
 ## 📦 Dependencias Principales
@@ -98,9 +98,7 @@ mongo/
 {
   "next": "^14.0.0",
   "react": "^18.2.0",
-  "mongoose": "^8.0.0",
-  "dotenv": "^16.3.1",
-  "axios": "^1.6.0"
+  "mongoose": "^8.0.0"
 }
 ```
 
